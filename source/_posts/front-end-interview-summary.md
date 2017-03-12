@@ -26,6 +26,7 @@ categories: Front-End
 - 15、xhtml和html有什么区别?
 - 16、Doctype作用? 严格模式与混杂模式如何区分？它们有何意义?
 - 17、行内元素有哪些？块级元素有哪些？ 空(void)元素有那些？行内元素和块级元素有什么区别？
+- 18、HTML全局属性(global attribute)有哪些
 
 ### $CSS部分
 
@@ -44,6 +45,7 @@ categories: Front-End
 - 14、谈谈浮动和清除浮动
 - 15、position的值， relative和absolute定位原点是
 - 16、display:inline-block 什么时候不会显示间隙？(携程)
+- 17、PNG,GIF,JPG的区别及如何选
 
 ### $JavaScript
 
@@ -134,29 +136,6 @@ categories: Front-End
 - 为什么大型应用需要从多个域名请求资源？
 - 什么样的页面具有良好的用户体验？
 - 是否了解Web注入攻击，说下原理，最- 常见的两种攻击（XSS 和 CSRF）了解到什么程度
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 ## $HTML， HTTP，web综合问题
@@ -381,7 +360,15 @@ link方式的样式的权重 高于@import的权重
 - 行内元素不可以设置宽高，不独占一行
 - 块级元素可以设置宽高，独占一行
 
+### 18、HTML全局属性(global attribute)有哪些
 
+- class:为元素设置类标识
+- data-*: 为元素增加自定义属性
+- draggable: 设置元素是否可拖拽
+- id: 元素id，文档内唯一
+- lang: 元素内容的的语言
+- style: 行内css样式
+- title: 元素相关的建议信息
 
 ## $CSS部分
 
@@ -528,6 +515,26 @@ Flash Of Unstyled Content：用户定义样式表加载之前浏览器使用默�
 - 使用font-size:0
 - letter-spacing
 - word-spacing
+
+### 17、PNG,GIF,JPG的区别及如何选
+
+- GIF
+    - 1. 8位像素，256色
+    - 2. 无损压缩
+    - 3. 支持简单动画
+    - 4. 支持boolean透明
+    - 5. 适合简单动画
+
+- JPEG
+  - 1. 颜色限于256
+  - 2. 有损压缩
+  - 3. 可控制压缩质量
+  - 4. 不支持透明
+  - 5. 适合照片
+- PNG
+  - 1. 有PNG8和truecolor PNG
+  - 2. PNG8类似GIF颜色上限为256，文件小，支持alpha透明度，无动画
+  - 3. 适合图标、背景、按钮
 
 ## $JavaScript
 
