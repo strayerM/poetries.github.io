@@ -79,12 +79,31 @@ events {
 
 http {
  
+
 	server {
        listen       80;
        server_name  119.29.145.252;
 	   
        location / {
            root   /usr/local/nginx/html;
+           index  index.html index.htm;
+        }
+   }
+   server {
+       listen       3001;
+       server_name  119.29.145.252;
+	   
+       location / {
+           root   /usr/local/nginx/book;
+           index  index.html index.htm;
+        }
+   }
+   server {
+       listen       9000;
+       server_name  119.29.145.252;
+	   
+       location / {
+           root   /usr/local/nginx/vue;
            index  index.html index.htm;
         }
    }
