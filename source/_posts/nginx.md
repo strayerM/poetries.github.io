@@ -7,6 +7,8 @@ categories: Back-end
 
 ### Nginx的启动、停止与重启
 
+- 建立软连接`Nginx`到`/usr/bin`目录下 `ln -s /usr/sbin/nginx /usr/bin`
+
 #### 启动
 
 - 启动代码格式：`nginx`安装目录地址 `-c nginx`配置文件地址
