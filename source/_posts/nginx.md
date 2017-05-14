@@ -69,9 +69,10 @@ categories: Back-end
 
 ### Nginx基础配置
 
-- 在`Nginx`目录下的`vhost`目录下新建一个配置文件（如`poetries-80.conf`）
-- 把server的内容配置进去`nginx -t /usr/local/nginx/conf/nginx.conf` 
-- 在`Nginx.conf`中的http下`include`配置文件
+- 在`Nginx`目录下的`vhost或conf.d`目录下新建一个配置文件（如`poetries-80.conf`）
+- 把server的内容配置进去
+- 在`Nginx.conf`中的`http`下`include`配置文件
+- 检测配置文件是否出错 `切换到/etc/nginx下 nginx -t`
 
 ```javascript
 user  root;  //Nginx需要有有一个用户
