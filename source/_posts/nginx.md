@@ -73,6 +73,8 @@ categories: Back-end
 - 把server的内容配置进去
 - 在`Nginx.conf`中的`http`下`include`配置文件
 - 检测配置文件是否出错 `切换到/etc/nginx下 nginx -t`
+- 重新加载配置文件 `nginx -c /usr/local/etc/nginx/nginx.conf`
+- 在重启`Nginx`  `nginx -s reload`
 
 ```javascript
 user  root;  //Nginx需要有有一个用户
