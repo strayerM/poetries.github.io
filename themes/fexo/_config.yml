@@ -43,12 +43,12 @@ page_nav:
   - name: 关于
     url: /about/
     target_blank: false
-  - name: 留言
-    url: /guestbook/
-    target_blank: false
-  - name: 搜索
-    url: /search/
-    target_blank: false # 在新页面打开
+  #- name: 留言
+    #url: /guestbook/
+    #target_blank: false
+  #- name: 搜索
+    #url: /search/
+    #target_blank: false # 在新页面打开
   - name: RSS
     url: /atom.xml
     target_blank: true # 在新页面打开
