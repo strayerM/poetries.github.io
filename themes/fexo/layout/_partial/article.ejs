@@ -24,7 +24,7 @@
           <a href="<%= theme.url + url_for(page.path) + '#disqus_thread' %>"></a>
         </span>
       <% } %>
-<%- partial('gitment') %>
+
 
     </div>
   </header>
@@ -42,6 +42,9 @@
     <% } %>
   </div>
 </article>
+
+<!-- 使用Gitmemt作为评论系统 -->
+<%- partial('gitment') %>
 
 <button class="assist-btn2 circle" id="assist_btn2" title="点亮屏幕" style="left: 27px; top: 152px;">
          <i class="iconfont" style="display:inline-block;color:red;width:20px;height:20px;">&#xe61d;</i>
