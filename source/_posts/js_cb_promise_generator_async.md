@@ -162,7 +162,7 @@ async function getData () {
 - 可以看到使用`async\await`就像写同步代码一样
 - 对比 `Promise` 感觉怎么样？是不是非常清晰，但是 `async/await` 是基于 `Promise` 的，因为使用 `async` 修饰的方法最终返回一个 `Promise`， 实际上，`async/await` 可以看做是使用 `Generator` 函数处理异步的语法糖，我们来看看如何使用 `Generator` 函数处理异步
 
-### 五、Generator
+## 五、Generator
 ---
 
 - 首先异步函数依然是
