@@ -131,7 +131,9 @@ getDataAsync('/page/1?param=123')
 ## 四、async/await
 ---
 
- - `getDataAsync` 方法不变，如下
+- `await`后面必须是一个`Promise`对象
+
+- `getDataAsync` 方法不变，如下
  
  ```javascript
  function getDataAsync (url) {
