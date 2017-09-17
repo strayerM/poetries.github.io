@@ -2,7 +2,7 @@
 title: ES6笔记记录
 date: 2017-08-20 14:33:00
 tags: 
-  - JavaScript‘’
+  - JavaScript
   - ES6
 categories: Front-End
 ---
