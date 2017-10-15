@@ -119,7 +119,7 @@ categories: Back-end
 五、第一个node服务器
 ---
 
-```
+```javascript
 //   安装好node就有的一个模块
 //  用来创建http服务器的
 const http = require(`http`);
