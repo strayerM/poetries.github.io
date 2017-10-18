@@ -72,7 +72,7 @@ s3.play.push(4);
 console.log(s3.play, s4.play); // [1, 2, 3, 4] [1, 2, 3]
 ```
  
-- 优化组合继承1：此方法解决了父类的构造函数执行了多次问题，但是无法判断实例是由子类创建的，还是父类创建的
+ - 优化组合继承1：此方法解决了父类的构造函数执行了多次问题，但是无法判断实例是由子类创建的，还是父类创建的
 
 ```javascript
 function Parent4 () {
@@ -92,6 +92,7 @@ console.log(s5 instanceof Child4, s5 instanceof Parent4); // 都是返回true
 console.log(s5.constructor); // 这里返回的构造函数是Parent4，而不是Child4，问题所在
 ``` 
 
+
 - 优化组合继承2：完美解决方案
 
 ```javascript
@@ -105,7 +106,7 @@ function Child5 () {
 }
 Child5.prototype = Object.create(Parent5.prototype);
 Child5.prototype.constructor = Child5;	 //重新修改了Child5的构造函数为Child5
- ```
+```
  
  
 
