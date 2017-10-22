@@ -1,5 +1,5 @@
 ---
-title: Mocha + Chai + Istanbul单元测试
+title: Mocha+Chai+Istanbul单元测试
 date: 2017-10-22 15:35:43
 tags: 
   - JavaScript
@@ -44,7 +44,7 @@ npm install --save-dev mocha chai  istanbul
 
 - 运行`npm run cover`和`npm run cover:check`，就可以生成测试报告，前者生成测试报告，后者则是检查测试覆盖率是否达到要求
 
-![](https://pic2.zhimg.com/v2-6ca2e32f24fdf4a0e37eeda89ae6a7d9_b.png)
+![image.png](http://upload-images.jianshu.io/upload_images/1480597-97b4892849c032af.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 
 **配置Istanbul**
@@ -150,5 +150,6 @@ script:
 ```
 
 五、小结
+---
 
 - 测试代码预览 https://github.com/poetries/test
