@@ -786,3 +786,6 @@ gulp.task('nodemon', function(cb) {
 - 这样以后我们在构建我们 `Webpack` 工程时只需要先执行 ` npm run dev`
 - 之后新建 `terminal` 执行 `gulp mock`
 - 就可以搭建一个随改随变的 `mock-server` 环境
+
+**完整的代码详情** https://github.com/poetries/mock-server
+
