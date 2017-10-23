@@ -7,10 +7,12 @@ tags:
 categories: Front-End
 ---
 
-> 为了做到前后端并行开发，数据`mock`就成为环境搭建的重要一环
+> 文章内容整理于互联网，方便学习
 
 
 ## 一、学前预热
+
+> 为了做到前后端并行开发，数据`mock`就成为环境搭建的重要一环
 
 ### 1.1 Web应用前后端分离
 
@@ -586,3 +588,201 @@ Mock.mock( { email: '@email' } )
 // => { email: "v.lewis@hall.gov" }
 ```
 
+## 四、简单构建一套mock-server
+
+> 为了更好的分工合作，让前端能在不依赖后端环境的情况下进行开发，其中一种手段就是为前端开发者提供一个 web 容器，这个本地环境就是 mock-server
+
+**一个比较好的 mock-server 该有的能力**
+
+- 与线上环境一致的接口地址，每次构建前端代码时不需要修改调用接口的代码
+- 所改即所得，具有热更新的能力，每次增加修改 `mock` 接口时不需要重启 `mock` 服务，更不用重启前端构建服务
+- 能配合 `Webpack`
+- `mock` 数据可以由工具生成不需要自己手动写
+- 能模拟 `POST`、`GET` 请求
+
+**搭建主要思路**
+
+> 以 `json-server` 作为 `mock` 服务器， `mock.js` 生成` mock` 数据，利用 `gulp + nodemon + browser-sync` 监听` mock `文件的改动重启 `node` 服务，刷新浏览器，以此达到一种相对完美的 `mock-server `要求
+
+
+### 4.1 json-server 搭配 mock.js
+
+- 这里以` Webpack` 的前端工程为例
+
+```javascript
+cnpm install json-server mockjs --save
+```
+
+- 在项目根目录新建 `mock `文件夹，新建 `mock/db.js` 作为 `mock` 数据源，`mock/server.js `作为 `mock` 服务，`mock/routes.js `重写路由表
+
+```javascript
+var Mock = require('mockjs');
+
+module.exports = {
+  getComment: Mock.mock({
+    "error": 0,
+    "message": "success",
+    "result|40": [{
+      "author": "@name",
+      "comment": "@cparagraph",
+      "date": "@datetime"
+    }]
+  }),
+  addComment: Mock.mock({
+    "error": 0,
+    "message": "success",
+    "result": []
+  })
+};
+```
+
+- 这里我们利用 `mock.js` 生成 `mock` 数据，可以尽可能的还原真实数据，还可以减少数据构造的复杂度
+
+```javascript
+// routes.js
+module.exports = {
+  "/comment/get.action": "/getComment",
+  "/comment/add.action": "/addComment"
+}
+```
+
+```javascript
+// server.js
+const jsonServer = require('json-server')
+const db = require('./db.js')
+const routes = require('./routes.js')
+const port = 3000;
+
+const server = jsonServer.create()
+const router = jsonServer.router(db)
+const middlewares = jsonServer.defaults()
+const rewriter = jsonServer.rewriter(routes)
+
+server.use(middlewares)
+// 将 POST 请求转为 GET
+server.use((request, res, next) => {
+  request.method = 'GET';
+  next();
+})
+
+server.use(rewriter) // 注意：rewriter 的设置一定要在 router 设置之前
+server.use(router)
+
+server.listen(port, () => {
+  console.log('open mock server at localhost:' + port)
+})
+```
+
+- 启动服务
+
+```javascript
+$ node mock/server.js
+```
+
+- 打开 `http://localhost:3000/comment/get.action `即可查看到我们想要的数据
+
+![image.png](http://upload-images.jianshu.io/upload_images/1480597-7c4747bf268572ad.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+> 是不是这样就算搭建完了我们的 `mock-server` ？不，并没有。我们可以尝试修改一下 `db.js` 的文件内容，刷新浏览器发现 `mock` 数据并没有像我们想象的那样修改。那也就是说每次当我们需要添加 /修改 `mock` 数据使都需要重启一次 `mock` 服务
+
+
+### 4.2 端口代理
+
+> 通过 `Webpack` 配置 `proxy` 代理
+
+
+```javascript
+module.exports = {
+  
+  devServer: {  
+    //其实很简单的，只要配置这个参数就可以了  
+    proxy: {  
+      '/api/': {  
+        target: 'http://localhost:3000',
+  	    changeOrigin: true,
+        pathRewrite: {
+          '^/api': ''
+        }
+      }
+    }
+  } 
+}
+```
+
+- 接着在代码里进行 `ajax `请求就可以写成，这里以 `axios` 为例子
+
+```javascript
+function getComments () {
+  axios.get('api/comment/get.action', {}).then((res) => {
+    console.log(res.data)
+  })
+}
+```
+
+### 4.3 文件改动自动刷新
+
+> 我们希望更改 `mock `文件能和 `webpack` 热更新一样，所改即所得。这里我使用了 `nodemon`，利用 `gulp` 建立自动执行的任务。
+
+```javascript
+cnpm install gulp gulp-nodemon browser-sync --save
+```
+
+```javascript
+// gulpfile.js 的代码如下
+onst path = require('path');
+const gulp = require('gulp');
+const nodemon = require('gulp-nodemon');
+const browserSync = require('browser-sync').create();
+const server = path.resolve(__dirname, 'mock');
+
+// browser-sync 配置，配置里启动 nodemon 任务
+gulp.task('browser-sync', ['nodemon'], function() {
+  browserSync.init(null, {
+    proxy: "http://localhost:8080", // 这里的端口和 webpack 的端口一致
+    port: 8081
+  });
+});
+
+// browser-sync 监听文件
+gulp.task('mock', ['browser-sync'], function() {
+  gulp.watch(['./mock/db.js', './mock/**'], ['bs-delay']);
+});
+
+// 延时刷新
+gulp.task('bs-delay', function() {
+  setTimeout(function() {
+    browserSync.reload();
+  }, 1000);
+});
+
+// 服务器重启
+gulp.task('nodemon', function(cb) {
+  // 设个变量来防止重复重启
+  var started = false;
+  var stream = nodemon({
+    script: './mock/server.js',
+    // 监听文件的后缀
+    ext: "js",
+    env: {
+      'NODE_ENV': 'development'
+    },
+    // 监听的路径
+    watch: [
+      server
+    ]
+  });
+  stream.on('start', function() {
+    if (!started) {
+      cb();
+      started = true;
+    }
+  }).on('crash', function() {
+    console.error('application has crashed!\n')
+    stream.emit('restart', 10)
+  })
+});
+```
+
+- 这样以后我们在构建我们 `Webpack` 工程时只需要先执行 ` npm run dev`
+- 之后新建 `terminal` 执行 `gulp mock`
+- 就可以搭建一个随改随变的 `mock-server` 环境
