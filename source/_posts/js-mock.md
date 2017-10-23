@@ -101,7 +101,8 @@ axios.get('/api2/seller').then((response) => {
 > - 第一种方式拦截了请求的发出，直接返回`mock`的数据，而第二种方式请求则真实地发出，只是在`server`端进行`route`拦截
 > - 前后端分离的方式，就是在传统开发模式中加了一个`node`层，这样数据`mock`完全可以在`node server`端完成，基本思路如下
 
-![](https://segmentfault.com/img/bVqnii)
+![mock](http://upload-images.jianshu.io/upload_images/1480597-db916b41fde14ca3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
 
 ### 2.1 mock思路说明
 
