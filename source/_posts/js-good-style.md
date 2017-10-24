@@ -2,8 +2,8 @@
 title: 编写可维护的JavaScript
 date: 2017-10-24 10:10:43
 tags: 
-  - JavaScript
-  - 读书笔记
+ - JavaScript
+ - 读书笔记
 categories: Front-End
 ---
 
