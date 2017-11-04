@@ -32,14 +32,14 @@ categories: Tools
 
 
 
-三、HTTP请求图标说明
+二、HTTP请求图标说明
 ---
 
 ![](http://upload-images.jianshu.io/upload_images/1480597-d5cc377e14bcd3a4?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 ![](http://upload-images.jianshu.io/upload_images/1480597-60a3d9069289be30?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-四、Statistic
+三、Statistic
 ---
 
 > 关于HTTP请求的性能和其他数据分析
@@ -49,7 +49,7 @@ categories: Tools
 > 我们可以从中看出一些基本性能数据：如DNS解析的时间消耗是`8ms`,建立`TCP/IP`连接的时间消耗是`8ms`等等信息
 
 
-五、Inspectors
+四、Inspectors
 ---
 
 > 分为上下两个部分，上半部分是请求头部分，下半部分是响应头部分。对于每一部分，提供了多种不同格式查看每个请求和响应的内容。
@@ -61,7 +61,7 @@ categories: Tools
 - Cookies标签可以看到请求的cookie和响应的set-cookie头信息
 
 
-六、Composer
+五、Composer
 ---
 
 > 老版本的`fiddler`中叫`request-builder`.顾名思义，可以构建相应的请求，有两种常用的方式构建请求
@@ -69,7 +69,7 @@ categories: Tools
 - `Parsed 输入请求的url之后`executed`即可，也可以修改相应的头信息（如添加常用的`accept`, `host`, `referrer`, `cookie`，`cache-control`等头部）后`execute`.
 - `Raw`。使用HTTP头部信息构建`http`请求。与上类似
 
-七、fiddler过滤会话
+六、fiddler过滤会话
 ---
 
 > 问题：每次使用`Fiddler`,
@@ -80,7 +80,7 @@ categories: Tools
 ![](http://upload-images.jianshu.io/upload_images/1480597-323fc05889d1cd10.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 
-八、Response乱码时的处理方法
+七、Response乱码时的处理方法
 ---
 
 > 问题：有时候我们看到`Response`中的`HTML`是乱码的， 这是因为`HTML`被压缩了， 我们可以通过两种方法去解压缩
@@ -92,7 +92,7 @@ categories: Tools
 
 ![](http://upload-images.jianshu.io/upload_images/1480597-197294a2aeeef8cb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-九、反向代理-AutoResponder
+八、反向代理-AutoResponder
 ---
 
 > 原理：利用`fiddler`作為反向代理。意思就是将外界的`request`请求端口修改掉！ 改写返回数据，最实用的功能
@@ -114,14 +114,14 @@ categories: Tools
 
 ![](http://upload-images.jianshu.io/upload_images/1480597-d154a2cbeb2a63f9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-十、fiddler提供了一个功能，让我们模拟低速网路环境
+九、fiddler提供了一个功能，让我们模拟低速网路环境
 ---
 
 > 启用方法如：Rules → Performances → Simulate Modem Speeds
 
 ![](http://upload-images.jianshu.io/upload_images/1480597-d154a2cbeb2a63f9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-十一、直接在fiddler上配置host
+十、直接在fiddler上配置host
 ---
 
 > 点击`tools>>hosts`,在里面填写自己想要设置的`host`即可
@@ -129,7 +129,7 @@ categories: Tools
 
 ![](http://upload-images.jianshu.io/upload_images/1480597-5bd1f6d694bb03ea.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-十二、Fiddler显示请求服务器的ip及系统环境的配置方法
+十一、Fiddler显示请求服务器的ip及系统环境的配置方法
 ---
 
 - 打开`Rules——>Customize  Rules`
@@ -157,7 +157,7 @@ FiddlerObject.UI.lvSessions.AddBoundColumn("HostIP", 50, "x-hostIP");
 
 ![](http://upload-images.jianshu.io/upload_images/1480597-d14e6280553bda0f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-十三、fiddler断点调试
+十二、fiddler断点调试
 ---
 
 > 第一种方法：菜单栏 `Rules` –》 `Automatic Breakpoints` –》 `Before Requests`(请求被发送到服务器端之前)；或者 `After Responses`(响应返回客户端之前)，这种设置对客户机发出的所有请求都进行拦截
@@ -166,7 +166,7 @@ FiddlerObject.UI.lvSessions.AddBoundColumn("HostIP", 50, "x-hostIP");
 
 ![](http://upload-images.jianshu.io/upload_images/1480597-de8617c36d47d914.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-十四、配合SwitchySharp插件使用
+十三、配合SwitchySharp插件使用
 ---
 
 > 为`fiddler`创建一个规则，代理到本地的`8888`端口（`fiddler`所用的端口）
