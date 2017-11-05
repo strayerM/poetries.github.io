@@ -18,6 +18,7 @@ categories: Front-End
 <meta name="format-detection" content="telephone=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
+<!--这个是关键-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0，minimum-scale=1.0">
 ```
 
@@ -35,7 +36,6 @@ categories: Front-End
             width = 750;
         }
         var fontS = width / 10; // 把设备宽度十等分 1rem=10px
-        console.log(fontS)
         docEl.style.fontSize = fontS + "px";
     }
     win.addEventListener("resize", function() {
@@ -54,7 +54,7 @@ categories: Front-End
 
 **布局细节**
 
-- 结构大体区块`section`划分更语义化
+- 结构用`section`区块划分更语义化
 - 然后在`body`设置宽度
 
 ```css
@@ -85,7 +85,7 @@ header {
 
 **其他详情**
 
-> 假定设计稿的大小为`750`，那么我们则将整个图分成`10`份来看
+> 假定设计稿的大小为`750`，那么我们则将整个图分成`10`等份来看
 
 - 那么，我们现在就让根部元素的`font-size`为`75px`
 
@@ -98,7 +98,7 @@ html{
 > 那么，我们现在就可以比对设计稿，比如设计稿中，有一个`div`元素，宽度，高度都为`20px`,那么我们这样写即可（可以用 `markman`标准设计稿的元素大小）
 
 ```css
-div{
+div {
 	height: 0.27rem; /*20/75*/
 	width: 0.27rem;
 }
@@ -117,10 +117,10 @@ div{
 
 
 
-二、百分百布局
+二、百分比布局
 ---
 
-> 以`640`设计稿为例，在外层容器上设置最大的宽
+> 以`640`设计稿为例，在外层容器上设置最大以及最小的宽
 
 ```css
 #wrapper {
@@ -136,7 +136,7 @@ div{
 - 高度以及图片不要定死，让它自动撑开
 
 
-小结
+三、小结
 ---
 
 > 关于移动端布局方案有很多，`rem`和百分比运用最多的
