@@ -7,8 +7,59 @@ tags:
 categories: Front-End
 ---
 
-一、Rem布局
+
+一、为什么要做适配
 ---
+
+- 为了适应各种移动端设备，完美呈现应有的布局效果  
+- 各个移动端设备，分辨率大小不一致，网页想铺满整个屏幕，并在各种分辨下等比缩放
+
+二、适配方案
+---
+
+- 固定高度，宽度百分比适配-布局非常均匀，适合百分比布局	
+- 固定宽度，改变缩放比例适配-什么情况都可以
+- `Rem`适配
+- 像素比适配
+
+三、单位
+---
+
+- `em`根据元素自身的字体大小计算,元素自身 `16px` `1em=16px`
+-  `Rem`  `R -> root` 根节点( `html` ) 根据`html`的字体大小计算其他元素尺寸
+
+四、百分比适配(常用)
+---
+
+> 固定高度，宽度百分比适配
+
+- 根据设置的大小去设置高度，单位可以用`px` 百分比 `auto` 
+- 常用`Flex`布局
+- 百分比宽度
+
+> 以`640`设计稿为例，在外层容器上设置最大以及最小的宽
+
+```css
+#wrapper {
+    max-width: 640px; /*设置设计稿的宽度*/
+    min-width: 300px;
+    margin: 0 auto;
+}
+```
+
+> 后面的区块布局都用百分比，具体元素大小用`px`计算
+
+- 也就是宽度用百分比，高度用`px`
+- 高度以及图片不要定死，让它自动撑开
+
+五、Rem适配(常用)
+---
+
+- 根据屏幕的分辨率动态设置`html`的文字大小，达到等比缩放的功能
+- 保证`html`最终算出来的字体大小，不能小于`12px`
+- 在不同的移动端显示不同的元素比例效果
+- 如果`html`的`font-size:20px `的时候，那么此时的`1rem = 20px`
+- 把设计图的宽度分成多少分之一，根据实际情况
 
 - `rem`做盒子的宽度，`viewport`缩放
 
@@ -25,7 +76,7 @@ categories: Front-End
 > 把这段代码加入`head`中的`script`预先加载
 
 ```javascript
-// 动态计算设备的尺寸
+// rem适配用这段代码动态计算html的font-size大小
 (function(win) {
     var docEl = win.document.documentElement;
     var timer = '';
@@ -51,6 +102,7 @@ categories: Front-End
     changeRem();
 })(window)
 ```
+
 
 **布局细节**
 
@@ -115,30 +167,52 @@ div {
 - 对于一些标题性的文字，我们依然可以用`rem`。让他随着屏幕来进行缩放，因为标题性文字一般较大，而较大的文字，点阵对其影响就越小。这样，即使出现奇怪的尺寸，也能够让字体得到很好的渲染。
 - 对于一些正文内容的文字（即站在使用者的角度，你不希望他进行缩放的文字）。我们采用`px`来进行处理
 
-
-
-二、百分比布局
+六、缩放比适配
 ---
 
-> 以`640`设计稿为例，在外层容器上设置最大以及最小的宽
+> 固定宽度，改变缩放比例适配
 
-```css
-#wrapper {
-    max-width: 640px; /*设置设计稿的宽度*/
-    min-width: 300px;
-    margin: 0 auto;
-}
+- 设计图的宽度就是网页显示的宽度
+- 改变视口的缩放比例
+- 页面宽度固定死
+
+```javascript
+// 缩放比例适配方案--用这个代码 
+var width = window.screen.width,
+    fixedW = 320, //设计稿宽度的一半
+    scale = width / fixedW, // 缩放比例
+    meta = document.createElement('meta'),
+    metaAttr = {
+        name : 'viewport',
+        content : 'width='+fixedW+', initial-scale='+scale+', maximum-scale='+scale+', user-scalable=0'
+    };
+    for (var key in metaAttr) {
+        meta[key] = metaAttr[key];
+    }
+    document.head.appendChild(meta);
 ```
 
-> 后面的区块布局都用百分比，具体元素大小用`px`计算
-
-- 也就是宽度用百分比，高度用`px`
-- 高度以及图片不要定死，让它自动撑开
 
 
-三、小结
+
+七、像素比适配
+---
+
+- `window.devicePixelRatio `
+- 物理像素是手机屏幕分辨率 
+- 独立像素 指`css`像素 屏幕宽度
+- 像素比 = 物理像素 / `css宽度`
+- 获取设备的像素比	`window.devicePixelRatio`
+
+
+
+八、小结
 ---
 
 > 关于移动端布局方案有很多，`rem`和百分比运用最多的
 
-- 另一篇相关文章:http://blog.poetries.top/2017/05/23/mobile-adaptation/
+
+**相关文章阅读**
+
+- http://blog.poetries.top/2017/05/23/mobile-adaptation/
+- https://www.tuicool.com/articles/nmm6reE
