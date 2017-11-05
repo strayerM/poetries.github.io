@@ -103,6 +103,7 @@ categories: Front-End
 })(window)
 ```
 
+- 或者使用淘宝提供的库 https://github.com/amfe/lib-flexible
 
 **布局细节**
 
@@ -135,17 +136,20 @@ header {
 }
 ```
 
-**其他详情**
+**把视觉稿中的 px 转换成 rem**
 
-> 假定设计稿的大小为`750`，那么我们则将整个图分成`10`等份来看
+> 首先，目前日常工作当中，视觉设计师给到前端开发人员手中的视觉稿尺寸一般是基于 `640px` 、 `750px` 以及 `1125px` 宽度为准。甚至为什么？大家应该懂的（考虑`Retina`屏）
 
-- 那么，我们现在就让根部元素的`font-size`为`75px`
+> 假定设计稿的大小为`750`，那么我们则将整个图分成`10`等份来看。`<html>` 对应的 `font-size`为`75px`
 
 ```css
 html{
 	font-size: 75px;
 }
 ```
+
+- 这样一来，对于视觉稿上的元素尺寸换算，只需要原始的 `px`值 除以 `rem`基准值 即可
+
 
 > 那么，我们现在就可以比对设计稿，比如设计稿中，有一个`div`元素，宽度，高度都为`20px`,那么我们这样写即可（可以用 `markman`标准设计稿的元素大小）
 
@@ -159,7 +163,33 @@ div {
 - 动态计算的`rem`最后会帮我们动态计算元素在不同屏幕下的宽高
 - 对于设计稿上的每个元素的尺寸在设计稿大小已知的时候，我们需要测量出，然后在用测量的宽高除以设计稿`750`的十分之一也就是`75`,得到我们想要的`rem`。而`rem`是根据屏幕动态变化的，也就达到了适配的效果。也就是同一套设计稿运用在不同的设备上。
 
-> 比如当我们切换到`375`设备大小的时候，这时候`1rem=32px;` `div`的像素实际是`0.27*32=8.64px` `0.27`是我们在已知设计稿是`750`的情况下计算出来的，`rem`用来动态计算而已
+> 比如当我们切换到`320`设备大小的时候，这时候`1rem=32px;` `div`的像素实际是`0.27*32=8.64px` `0.27`是我们在已知设计稿是`750`的情况下计算出来的，`rem`用来动态计算而已
+
+- 对于`margin` `padding` `line-height` `width` `height`使用`rem`计算
+
+**如何快速计算**
+
+> 在实际生产当中，如果每一次计算 `px` 转换 `rem` ，或许会觉得非常麻烦
+
+- [`CSSREM`](https://github.com/flashlizi/cssrem) 是一个`CSS`的 `px` 值转 `rem` 值的`Sublime Text3`自动完成插件
+- 插件效果
+
+![](https://github.com/poetries/cssrem/raw/master/cssrem.gif)
+
+
+> 插件使用方法
+
+- 安装
+  * 下载本项目，比如：git clone https://github.com/flashlizi/cssrem
+  * 进入`packages`目录：`Sublime Text` -> `Preferences` -> `Browse Packages`...
+  * 复制下载的`cssrem`目录到刚才的packges目录里。
+  * 重启`Sublime Text`
+
+- 配置参数
+  - 参数配置文件：`Sublime Text -> Preferences -> Package Settings -> cssrem`
+  * `px_to_rem` - `px`转`rem`的单位比例，默认为`40`【根据设计稿来设置，如设计稿`750`，我们取十分之一即`75`】。
+  * `max_rem_fraction_length` - `px`转`rem`的小数部分的最大长度。默认为`6`。
+  * `available_file_types` - 启用此插件的文件类型。默认为：["`.css`", "`.less`", "`.sass`"]。
 
 
 **文字适配的解决方案**
@@ -211,8 +241,8 @@ var width = window.screen.width,
 
 > 关于移动端布局方案有很多，`rem`和百分比运用最多的
 
-
 **相关文章阅读**
 
-- http://blog.poetries.top/2017/05/23/mobile-adaptation/
-- https://www.tuicool.com/articles/nmm6reE
+- [使用Flexible实现手淘H5页面的终端适配](https://www.tuicool.com/articles/nmm6reE)
+- [移动端web开发技巧](http://liujinkai.com/2015/06/06/mobile-web-skill/)
+- [移动前端meta标签](http://ymblog.net/2015/07/01/%E7%A7%BB%E5%8A%A8%E5%89%8D%E7%AB%AFmeta%E6%A0%87%E7%AD%BE%E8%BD%AC/)
