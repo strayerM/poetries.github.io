@@ -10,6 +10,9 @@ categories: Front-End
 
 > 来源于互联网
 
+
+> 来源于互联网
+
 ## 一、npm的配置
 
 
@@ -577,6 +580,369 @@ class ControlledInput extends React.Component {
 ## 八、redux-router
 ![react-router](http://upload-images.jianshu.io/upload_images/1480597-cae1c4d6de6642de.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
+### 8.1、基本用法
+
+
+> 使用时，路由器`Router`就是`React`的一个组件
+
+```javascript
+import { Router } from 'react-router';
+render(<Router/>, document.getElementById('app'));
+```
+
+> `Router`组件本身只是一个容器，真正的路由要通过`Route`组件定义
+
+
+```javascript
+import { Router, Route, hashHistory } from 'react-router';
+
+render((
+  <Router history={hashHistory}>
+    <Route path="/" component={App}/>
+  </Router>
+), document.getElementById('app'));
+```
+
+> 上面代码中，用户访问根路由`/`，组件APP就会加载到`document.getElementById('app')`
+
+- `Router`组件有一个参数`history`，它的值`hashHistory`表示，路由的切换由`URL`的`hash`变化决定，即`URL`的`#`部分发生变化
+- `Route`组件定义了`URL`路径与组件的对应关系。你可以同时使用多个`Route`组件
+
+```javascript
+<Router history={hashHistory}>
+  <Route path="/" component={App}/>
+  <Route path="/repos" component={Repos}/>
+  <Route path="/about" component={About}/>
+</Router>
+```
+
+> 上面代码中，用户访问/repos（比如http://localhost:8080/#/repos）时，加载Repos组件；访问/about（http://localhost:8080/#/about）时，加载About组件
+
+
+### 8.2、嵌套路由
+
+
+> `Route`组件还可以嵌套
+
+```javascript
+<Router history={hashHistory}>
+  <Route path="/" component={App}>
+    <Route path="/repos" component={Repos}/>
+    <Route path="/about" component={About}/>
+  </Route>
+</Router>
+```
+
+> 上面代码中，用户访问`/repos`时，会先加载`App`组件，然后在它的内部再加载`Repos`组件
+
+```javascript
+<App>
+  <Repos/>
+</App>
+```
+
+- `App`组件要写成下面的样子
+
+```javascript
+export default React.createClass({
+  render() {
+    return <div>
+      {this.props.children}
+    </div>
+  }
+})
+```
+
+> `App`组件的`this.props.children`属性就是子组件
+
+
+### 8.3、 path 属性
+
+
+> `Route`组件的`path`属性指定路由的匹配规则。这个属性是可以省略的，这样的话，不管路径是否匹配，总是会加载指定组件
+
+- `Route`组件的`path`属性指定路由的匹配规则。这个属性是可以省略的，这样的话，不管路径是否匹配，总是会加载指定组件
+
+```javascript
+<Route path="inbox" component={Inbox}>
+   <Route path="messages/:id" component={Message} />
+</Route>
+```
+
+> 当用户访问`/inbox/messages/:id`时，会加载下面的组件
+
+```javascript
+<Inbox>
+  <Message/>
+</Inbox>
+```
+
+> 如果省略外层`Route`的`path`参数，写成下面的样子
+
+```javascript
+<Route component={Inbox}>
+  <Route path="inbox/messages/:id" component={Message} />
+</Route>
+```
+> 现在用户访问`/inbox/messages/:id`时，组件加载还是原来的样子
+
+```javascript
+<Inbox>
+  <Message/>
+</Inbox>
+```
+
+###8.4、通配符
+
+
+> `path`属性可以使用通配符
+
+```javascript
+<Route path="/hello/:name">
+// 匹配 /hello/michael
+// 匹配 /hello/ryan
+
+<Route path="/hello(/:name)">
+// 匹配 /hello
+// 匹配 /hello/michael
+// 匹配 /hello/ryan
+
+<Route path="/files/*.*">
+// 匹配 /files/hello.jpg
+// 匹配 /files/hello.html
+
+<Route path="/files/*">
+// 匹配 /files/ 
+// 匹配 /files/a
+// 匹配 /files/a/b
+
+<Route path="/**/*.jpg">
+// 匹配 /files/hello.jpg
+// 匹配 /files/path/to/file.jpg
+```
+
+**通配符的规则如下**
+
+
+- **:paramName**
+
+> `:paramName`匹配`URL`的一个部分，直到遇到下一个`/`、`?`、`#`为止。这个路径参数可以通过`this.props.params.paramName`取出
+
+- **()**
+
+> `()`表示`URL`的这个部分是可选的
+
+- 匹配任意字符，直到模式里面的下一个字符为止。匹配方式是非贪婪模式
+- 匹配任意字符，直到下一个`/`、`?`、`#`为止。匹配方式是贪婪模式
+
+> `path`属性也可以使用相对路径（不以`/`开头），匹配时就会相对于父组件的路径。嵌套路由如果想摆脱这个规则，可以使用绝对路由
+
+- 此外，`URL`的查询字符串`/foo?bar=baz`，可以用`this.props.location.query.bar`获取
+
+### 8.5、IndexRoute 组件
+
+
+```javascript
+<Router>
+  <Route path="/" component={App}>
+    <Route path="accounts" component={Accounts}/>
+    <Route path="statements" component={Statements}/>
+  </Route>
+</Router>
+```
+
+> - 上面代码中，访问根路径`/`，不会加载任何子组件。也就是说，`App`组件的`this.props.children`，这时是`undefined`
+> - 因此，通常会采用{`this.props.children` || `<Home/>}`这样的写法。这时，Home明明是`Accounts`和`Statements`的同级组件，却没有写在`Route`中
+> - IndexRoute就是解决这个问题，显式指定Home是根路由的子组件，即指定默认情况下加载的子组件。你可以把`IndexRoute`想象成某个路径的`index.html`
+
+```javascript
+<Router>
+  <Route path="/" component={App}>
+    <IndexRoute component={Home}/>
+    <Route path="accounts" component={Accounts}/>
+    <Route path="statements" component={Statements}/>
+  </Route>
+</Router>
+```
+
+> 现在，用户访问`/`的时候，加载的组件结构如下
+
+
+```javascript
+<App>
+  <Home/>
+</App>
+```
+
+- **注意**，`IndexRoute`组件没有路径参数`path`
+
+
+### 8.6、Redirect 组件
+
+
+> `<Redirect>`组件用于路由的跳转，即用户访问一个路由，会自动跳转到另一个路由
+
+```javascript
+<Route path="inbox" component={Inbox}>
+  {/* 从 /inbox/messages/:id 跳转到 /messages/:id */}
+  ＜Redirect from="messages/:id" to="/messages/:id" />
+</Route>
+```
+
+> 现在访问`/inbox/messages/5`，会自动跳转到`/messages/5`
+
+### 8.7、IndexRedirect 组件
+
+> `IndexRedirect`组件用于访问根路由的时候，将用户重定向到某个子组件
+
+```javascript
+<Route path="/" component={App}>
+  ＜IndexRedirect to="/welcome" />
+  <Route path="welcome" component={Welcome} />
+  <Route path="about" component={About} />
+</Route>
+```
+
+> 用户访问根路径时，将自动重定向到子组件`welcome`
+
+
+### 8.8、Link
+
+
+> `Link`组件用于取代`<a>`元素，生成一个链接，允许用户点击后跳转到另一个路由。它基本上就是`<a>`元素的`React` 版本，可以接收`Router`的状态
+
+```javascript
+render() {
+  return <div>
+    <ul role="nav">
+      <li><Link to="/about">About</Link></li>
+      <li><Link to="/repos">Repos</Link></li>
+    </ul>
+  </div>
+}
+```
+
+> 如果希望当前的路由与其他路由有不同样式，这时可以使用`Link`组件的`activeStyle`属性
+
+```javascript
+<Link to="/about" activeStyle={{color: 'red'}}>About</Link>
+<Link to="/repos" activeStyle={{color: 'red'}}>Repos</Link>
+```
+
+- 在`Router`组件之外，导航到路由页面，可以使用浏览器的`History API`，像下面这样写
+
+```javascript
+import { browserHistory } from 'react-router';
+browserHistory.push('/some/path');
+```
+
+### 8.9、IndexLink
+
+
+> 如果链接到根路由`/`，不要使用`Link`组件，而要使用`IndexLink`组件
+
+- 是因为对于根路由来说，`activeStyle`和`activeClassName`会失效，或者说总是生效，因为`/`会匹配任何子路由。而`IndexLink`组件会使用路径的精确匹配
+
+
+```javascript
+<IndexLink to="/" activeClassName="active">
+  Home
+</IndexLink>
+```
+
+> 上面代码中，根路由只会在精确匹配时，才具有`activeClassName`
+
+
+### 8.10、histroy 属性
+
+> `Router`组件的`history`属性，用来监听浏览器地址栏的变化，并将`URL`解析成一个地址对象，供 `React Router` 匹配
+
+- `history`属性，一共可以设置三种值。
+  - `browserHistory`
+  - `hashHistory`
+  - `createMemoryHistory`
+  
+> 如果设为`hashHistory`，路由将通过`URL`的hash部分`（#）`切换，`URL`的形式类似`example.com/#/some/path`
+
+```javascript
+import { hashHistory } from 'react-router'
+
+render(
+  <Router history={hashHistory} routes={routes} />,
+  document.getElementById('app')
+)
+```
+
+> 如果设为`browserHistory`，浏览器的路由就不再通过`Hash`完成了，而显示正常的路径`example.com/some/path`，背后调用的是浏览器的`History API`
+
+```javascript
+import { browserHistory } from 'react-router'
+
+render(
+  <Router history={browserHistory} routes={routes} />,
+  document.getElementById('app')
+)
+```
+
+> 但是，这种情况需要对服务器改造。否则用户直接向服务器请求某个子路由，会显示网页找不到的`404`错误。
+
+
+### 8.11、表单处理
+
+
+> `Link`组件用于正常的用户点击跳转，但是有时还需要表单跳转、点击按钮跳转等操作
+
+```javascript
+<form onSubmit={this.handleSubmit}>
+  <input type="text" placeholder="userName"/>
+  <input type="text" placeholder="repo"/>
+  <button type="submit">Go</button>
+</form>
+```
+
+**第一种方法是使用browserHistory.push**
+
+```javascript
+import { browserHistory } from 'react-router'
+
+// ...
+  handleSubmit(event) {
+    event.preventDefault()
+    const userName = event.target.elements[0].value
+    const repo = event.target.elements[1].value
+    const path = `/repos/${userName}/${repo}`
+    browserHistory.push(path)
+  },
+  ```
+  
+**第二种方法是使用context对象**
+ 
+```
+export default React.createClass({
+
+  // ask for `router` from context
+  contextTypes: {
+    router: React.PropTypes.object
+  },
+
+  handleSubmit(event) {
+    // ...
+    this.context.router.push(path)
+  },
+})
+```
+
+### 8.12、路由的钩子
+
+> 每个路由都有`Enter`和`Leave`钩子，用户进入或离开该路由时触发
+
+- 上面的代码中，如果用户离开`/messages/:id`，进入`/about`时，会依次触发以下的钩子
+  - `/messages/:id`的`onLeave`
+  - `/inbox`的`onLeave`
+  - `/about`的`onEnter`
+
+
+  
 ## 九、redux
 
 ### 9.1 Redux 的适用场景
@@ -1497,4 +1863,5 @@ ReactDOM.render(
 ## 十二、思维导图总结
 
 ![image.png](http://upload-images.jianshu.io/upload_images/1480597-d20b7699e8d0624c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
 
