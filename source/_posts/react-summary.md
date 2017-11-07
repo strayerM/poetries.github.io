@@ -276,18 +276,18 @@ const SimpleButton = props => <button>{props.text}</button>
 
 > 比如说设置了`value`的`<input>` 是一个受控组件。对于受控的`<input>`，渲染出来的`html`元素始终保持着`value`属性的值，如以下代码
 
-![](https://pic2.zhimg.com/v2-fd4a419002278790cf9c365b3dc9a2f5_b.png)
+![image](http://upload-images.jianshu.io/upload_images/1480597-5bc310822e0895fa.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 
 - 此时如果想要更新用户的值。需要使用`onChange`事件
 
-![](https://pic2.zhimg.com/v2-bb660fb6484cea3262b7bd07a3778435_b.png)
+![image](http://upload-images.jianshu.io/upload_images/1480597-448f6f21ba0df9b1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 **非受控组件**
 
 > 即没有设置`value`或者设置为`null`的是一个非受控组件，对于非受控的`input`组件，用户的输入会直接反映在页面上
 
-![](https://pic1.zhimg.com/v2-9358c1c15d4e6b803191cf3d112dd350_b.png)
+![image](http://upload-images.jianshu.io/upload_images/1480597-90c6f85dc75ef3d7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 
 - 上面的代码渲染出一个空值的输入框，用户的输入立即会反映在元素上
@@ -1237,7 +1237,7 @@ const reducer = combineReducers(reducers)
 
 ### 9.4 工作流程
 
-![](http://www.ruanyifeng.com/blogimg/asset/2016/bg2016091802.jpg)
+![image](http://upload-images.jianshu.io/upload_images/1480597-72a33d9e42602972.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 - 首先，用户发出 `Action`
 
@@ -1311,7 +1311,7 @@ store.subscribe(render);
 
 - 怎么才能 `Reducer` 在异步操作结束后自动执行呢？这就要用到新的工具：中间件（`middleware`）
 
-![](http://www.ruanyifeng.com/blogimg/asset/2016/bg2016092002.jpg)
+![image](http://upload-images.jianshu.io/upload_images/1480597-34a7ad88469625f7.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 
 ### 10.1 中间件的概念
@@ -1426,7 +1426,7 @@ class AsyncApp extends Component {
 
 - 下面就是`fetchPosts`的代码，关键之处就在里面
 
-![](http://www.ruanyifeng.com/blogimg/asset/2016/bg2016092003.jpg)
+![image](http://upload-images.jianshu.io/upload_images/1480597-f0de2f9655fe28f3.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 ```javascript
 const fetchPosts = postTitle => (dispatch, getState) => {
