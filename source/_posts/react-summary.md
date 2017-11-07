@@ -612,7 +612,7 @@ render((
 </Router>
 ```
 
-> 上面代码中，用户访问/repos（比如http://localhost:8080/#/repos）时，加载Repos组件；访问/about（http://localhost:8080/#/about）时，加载About组件
+> 上面代码中，用户访问`/repos`（比如`http://localhost:8080/#/repos`）时，加载`Repos`组件；访问`/about（http://localhost:8080/#/about）`时，加载`About`组件
 
 
 ### 8.2、嵌套路由
@@ -688,7 +688,7 @@ export default React.createClass({
 </Inbox>
 ```
 
-###8.4、通配符
+### 8.4、通配符
 
 
 > `path`属性可以使用通配符
