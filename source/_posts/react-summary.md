@@ -1239,6 +1239,10 @@ const reducer = combineReducers(reducers)
 
 ![image](http://upload-images.jianshu.io/upload_images/1480597-72a33d9e42602972.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
+![image.png](http://upload-images.jianshu.io/upload_images/1480597-3e80b99c89f6aa4f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+![image.png](http://upload-images.jianshu.io/upload_images/1480597-d741057955c632ba.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
 - 首先，用户发出 `Action`
 
 ```javascript
