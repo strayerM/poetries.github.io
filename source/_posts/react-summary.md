@@ -1241,7 +1241,12 @@ const reducer = combineReducers(reducers)
 
 ![image.png](http://upload-images.jianshu.io/upload_images/1480597-3e80b99c89f6aa4f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-![image.png](http://upload-images.jianshu.io/upload_images/1480597-d741057955c632ba.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![react组件+redux单向数据流](http://upload-images.jianshu.io/upload_images/1480597-d741057955c632ba.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+![前端异步请求用例](http://upload-images.jianshu.io/upload_images/1480597-5c6d10572cc20356.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+![PFAT如何解决前端异步请求的用例？](http://upload-images.jianshu.io/upload_images/1480597-a42fb9019138c1ed.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
 
 - 首先，用户发出 `Action`
 
