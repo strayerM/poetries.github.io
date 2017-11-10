@@ -8,10 +8,13 @@ categories: Front-End
 ---
 
 
+
 一、简介
 ---
 
 > `styled components`一种全新的控制样式的编程方式，它能解决`CSS`全局作用域的问题，而且移除了样式和组件间的映射关系
+
+- 我们要理清一件事情：`styled-components` 只是 `CSS` 层面的高度抽象。它只是解析定义在 `JavaScript `中的 `CSS`，然后生成对应 `CSS` 的 `JSX `元素
 
 ```javascript
 import React from 'react';
@@ -41,10 +44,9 @@ render(
 
 - `styled.h1`是一个标签模板函数
 
-> `styled.h1`函数返回一个`React Component`，`styled components`会为这个`React Component`添加一个`class`，该`class`的值为一个随机字符串。传给`styled.h1`的模板字符串参数的值实际上是`CSS`语法，这些`CSS`会附加到该`React Component`的`class`中，从而为`React Component`添加样式
+> `styled.h1`函数返回一个`React Component`，`styled components`会为这个`React Component`添加一个`class`，该`class`的值为一个随机字符串。传给styled.h1的模板字符串参数的值实际上是CSS语法，这些CSS会附加到该`React Component`的`class`中，从而为`React Component`添加样式
 
 ![image.png](http://upload-images.jianshu.io/upload_images/1480597-1c0b2f09980a8a0d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-
 
 二、基于 props 定制主题
 ---
@@ -193,7 +195,149 @@ const StyledDiv = styled(Row)`
 `;
 ```
 
-八、总结
+
+八、实战篇
+---
+
+**extend与styled**
+
+
+```css
+/*基础组件button*/
+export const Button = styled.button`
+    border-radius: 3px;
+    padding: 0.25em 1em;
+    margin: 0 1em;
+    background: ${props=>props.primary?"palevioletred":"transparent"};
+    color: ${props=>props.primary?"white":"palevioletred"};
+    border: 2px solid palevioletred;
+`;
+
+/*扩展按钮的属性，不再原来基础上修改 如在<button class="abc con">上添加一个con类一样*/
+export const AButton = styled(Button)`
+    width:200px;
+    height:20px;
+    padding:20px;
+`
+
+/*扩展的结果*/
+button {
+    border-radius: 3px;
+    padding: 0.25em 1em;
+    margin: 0 1em;
+    background: transparent;
+    color: palevioletred;
+    border: 2px solid palevioletred;
+}
+/**添加的扩展属性**/
+.con {
+    background: yellow;
+}
+
+
+/*继承按钮的样式并且在原来基础上修改  如在<button class="con">.con类上叠加属性一样**/
+export const TomatoButton = Button.extend`
+    width:200px;
+    height:10%;
+`
+/*继承的结果  子组件中的属性会覆盖父组件中同名的属性*/
+button {
+    border-radius: 3px;
+    padding: 0.25em 1em;
+    margin: 0 1em;
+    background: transparent;
+    color: palevioletred;
+    border: 2px solid palevioletred;
+    /*添加的继承属性*/
+    width: 200px;
+    height: 10%;
+}
+```
+
+```css
+const Button = styled.button`
+  padding: 10px;
+`;
+const TomatoButton = Button.extend`
+  color: #f00;
+`;
+
+/** css写法 **/
+button {
+  padding: 10px;
+}
+button.tomato-button {
+  color: #f00;
+}
+```
+
+**传递属性的两中写法**
+
+
+```html
+<Button primary />
+<Button secondary />
+<Button primary active={true} />
+```
+
+```css
+/*对单个属性的值做判断赋值*/
+styled.Button`
+  background: ${props => props.primary ? '#f00' : props.secondary ? '#0f0' : '#00f'};
+  color: ${props => props.primary ? '#fff' : props.secondary ? '#fff' : '#000'};
+  opacity: ${props => props.active ? 1 : 0};
+`;
+
+
+
+const Button = styled.button`
+	border-radius: 3px;
+	padding: 0.25em 1em;
+	margin: 0 1em;
+	background: transparent;
+	color: palevioletred;
+	border: 2px solid palevioletred;
+    
+    /*可以写一堆属性*/
+	${props => props.primary && css`
+		background: palevioletred;
+		color: white;
+	`}
+`;
+
+
+
+/**css写法**/
+button {
+  background: #00f;
+  opacity: 0;
+  color: #000;
+}
+button.primary,
+button.seconary {
+  color: #fff;
+}
+button.primary {
+  background: #f00;
+}
+button.secondary {
+  background: #0f0;
+}
+button.active {
+  opacity: 1;
+}
+```
+
+
+- 使用
+
+```html
+<Button primary></Button>
+```
+
+
+
+九、总结
 ---
 
 - 提出了 `container` 和 `components` 的概念，移除了组件和样式之间的映射关系，符合关注度分离的模式；
